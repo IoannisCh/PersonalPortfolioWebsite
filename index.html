@@ -1,43 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>IoannisCh | Systems Engineer Portfolio</title>
-  </head>
-  <body>
-    <div id="desktop">
-      <div class="shortcut" onclick="window.open('https://github.com/IoannisCh', '_blank')">
-        <div class="icon-placeholder"></div>
-        <span>GitHub_Profile.url</span>
-      </div>
+<head>
+    <meta charset="UTF-8">
+    <title>IoannisCh | X11 Workstation</title>
+    <link rel="stylesheet" href="src/style.css">
+</head>
+<body>
+    <div id="workspace">
+        <div class="shortcut" data-window="bio-win">
+            <div class="icon">👤</div>
+            <span>Home</span>
+        </div>
+        <div class="shortcut" data-window="git-win">
+            <div class="icon">📁</div>
+            <span>GitHub_Projects</span>
+        </div>
 
-      <div id="bio-window" class="window">
-        <div class="title-bar">
-          <div class="title">README.txt - Notepad</div>
-          <div class="controls">
-            <button class="minimize">_</button>
-            <button class="close">X</button>
-          </div>
+        <div id="bio-win" class="window active">
+            <div class="title-bar">
+                <span class="window-title">user@ioannis: ~/bio</span>
+                <div class="window-actions">
+                    <button class="win-btn">_</button>
+                    <button class="win-btn close">X</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <h2>System Info</h2>
+                <p><strong>Engineer:</strong> IoannisCh</p>
+                <p><strong>Focus:</strong> Systems, OsDev, C++</p>
+                <p>Modern performance, vintage interface.</p>
+            </div>
         </div>
-        <div class="window-body">
-          <h1>IoannisCh</h1>
-          <p>Software & Systems Engineer</p>
-          <hr />
-          <p>Focusing on: C++, Assembly, and Modern Web Integration.</p>
-          <p>Check my repositories: <strong>OsDev</strong> and <strong>CSProject</strong> below.</p>
-          <a href="https://github.com/IoannisCh" class="retro-button">Explore Repositories</a>
+
+        <div id="git-win" class="window" style="display:none; top:150px; left:150px;">
+            <div class="title-bar">
+                <span class="window-title">X-Project-Manager</span>
+                <div class="window-actions">
+                    <button class="win-btn close">X</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <ul>
+                    <li><a href="https://github.com/IoannisCh/OsDev" target="_blank">OsDev</a> - Kernel development</li>
+                    <li><a href="https://github.com/IoannisCh/CSProject" target="_blank">CSProject</a> - Systems logic</li>
+                </ul>
+            </div>
         </div>
-      </div>
     </div>
 
-    <div id="taskbar">
-      <div class="start-button">
-        <b>Start</b>
-      </div>
-      <div id="clock" class="clock">00:00 PM</div>
+    <div id="panel">
+        <div class="panel-item">Applications</div>
+        <div class="panel-item clock" id="clock">00:00:00</div>
     </div>
 
-    <script type="module" src="script.js"></script>
-  </body>
+    <script src="src/main.js"></script>
+</body>
 </html>
