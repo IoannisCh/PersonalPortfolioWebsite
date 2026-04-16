@@ -3,10 +3,41 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>IoannisCh | Systems Engineer</title>
-    </head>
+    <title>IoannisCh | Systems Engineer Portfolio</title>
+  </head>
   <body>
-    <div id="root"></div>
+    <div id="desktop">
+      <div class="shortcut" onclick="window.open('https://github.com/IoannisCh', '_blank')">
+        <div class="icon-placeholder"></div>
+        <span>GitHub_Profile.url</span>
+      </div>
+
+      <div id="bio-window" class="window">
+        <div class="title-bar">
+          <div class="title">README.txt - Notepad</div>
+          <div class="controls">
+            <button class="minimize">_</button>
+            <button class="close">X</button>
+          </div>
+        </div>
+        <div class="window-body">
+          <h1>IoannisCh</h1>
+          <p>Software & Systems Engineer</p>
+          <hr />
+          <p>Focusing on: C++, Assembly, and Modern Web Integration.</p>
+          <p>Check my repositories: <strong>OsDev</strong> and <strong>CSProject</strong> below.</p>
+          <a href="https://github.com/IoannisCh" class="retro-button">Explore Repositories</a>
+        </div>
+      </div>
+    </div>
+
+    <div id="taskbar">
+      <div class="start-button">
+        <b>Start</b>
+      </div>
+      <div id="clock" class="clock">00:00 PM</div>
+    </div>
+
     <script type="module" src="script.js"></script>
   </body>
 </html>

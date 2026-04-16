@@ -1,48 +1,37 @@
 import 'style.css';
 
-// Initialize the Desktop Environment
 document.addEventListener('DOMContentLoaded', () => {
-    initClock();
-    makeDraggable(document.querySelector('.window'));
-});
+    const windowEl = document.getElementById('bio-window');
+    const titleBar = windowEl.querySelector('.title-bar');
 
-// Function to handle Window Draggability
-function makeDraggable(el) {
-    if (!el) return;
-    const header = el.querySelector('.title-bar');
+    // 1. Draggable Logic
+    let isDragging = false;
+    let offset = { x: 0, y: 0 };
 
-    header.onmousedown = (e) => {
-        // Bring to front
-        el.style.zIndex = 100;
-        
-        let shiftX = e.clientX - el.getBoundingClientRect().left;
-        let shiftY = e.clientY - el.getBoundingClientRect().top;
+    titleBar.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        offset.x = e.clientX - windowEl.offsetLeft;
+        offset.y = e.clientY - windowEl.offsetTop;
+        windowEl.style.zIndex = 1000; // Bring to front
+    });
 
-        function moveAt(pageX, pageY) {
-            el.style.left = pageX - shiftX + 'px';
-            el.style.top = pageY - shiftY + 'px';
-        }
+    document.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        windowEl.style.left = `${e.clientX - offset.x}px`;
+        windowEl.style.top = `${e.clientY - offset.y}px`;
+    });
 
-        function onMouseMove(event) {
-            moveAt(event.pageX, event.pageY);
-        }
+    document.addEventListener('mouseup', () => {
+        isDragging = false;
+    });
 
-        document.addEventListener('mousemove', onMouseMove);
-
-        document.onmouseup = () => {
-            document.removeEventListener('mousemove', onMouseMove);
-            document.onmouseup = null;
-        };
-    };
-}
-
-// Simple Clock Logic
-function initClock() {
-    const clockEl = document.getElementById('clock');
-    const update = () => {
+    // 2. Taskbar Clock
+    const updateClock = () => {
         const now = new Date();
-        clockEl.innerText = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        const clock = document.getElementById('clock');
+        clock.innerText = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     };
-    setInterval(update, 1000);
-    update();
-}
+
+    setInterval(updateClock, 1000);
+    updateClock();
+});
