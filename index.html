@@ -46,6 +46,46 @@
                 </ul>
             </div>
         </div>
+        <div id="term-win" class="window" style="top: 250px; left: 100px; display: none;">
+    <div class="title-bar">
+        <span class="window-title">xterm - bash</span>
+        <div class="window-actions">
+            <button class="win-btn close">X</button>
+        </div>
+    </div>
+    <div class="window-content terminal-content">
+        <div id="terminal-history">
+            Welcome to Ioannis-OS v1.0.4<br>
+            Type 'help' for a list of commands.
+        </div>
+        <div class="terminal-input-line">
+            <span class="prompt">guest@ioannis:~$</span>
+            <input type="text" id="term-input" autofocus>
+        </div>
+    </div>
+</div>
+
+<div id="sys-win" class="window" style="top: 50px; right: 50px; display: block;">
+    <div class="title-bar">
+        <span class="window-title">X-System-Monitor</span>
+        <div class="window-actions">
+            <button class="win-btn close">X</button>
+        </div>
+    </div>
+    <div class="window-content">
+        <div class="stat-row">
+            <span>CPU Usage:</span>
+            <div class="progress-bar"><div id="cpu-load" class="progress-fill"></div></div>
+        </div>
+        <div class="stat-row">
+            <span>MEM Usage:</span>
+            <div class="progress-bar"><div id="mem-load" class="progress-fill"></div></div>
+        </div>
+        <div class="graph-box">
+            <div id="graph-wave"></div>
+        </div>
+    </div>
+</div>
     </div>
 
     <div id="panel">

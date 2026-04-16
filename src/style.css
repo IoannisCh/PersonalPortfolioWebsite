@@ -65,3 +65,63 @@ body {
     margin-top: 50px;
     cursor: pointer;
 }
+
+/* Terminal Specifics */
+.terminal-content {
+    background: #000 !important;
+    color: #0f0 !important;
+    font-family: 'Courier New', monospace;
+    height: 200px;
+    overflow-y: auto;
+}
+
+#term-input {
+    background: transparent;
+    border: none;
+    color: #0f0;
+    outline: none;
+    font-family: inherit;
+    width: 70%;
+}
+
+/* System Monitor Specifics */
+.stat-row { margin-bottom: 10px; font-size: 12px; }
+
+.progress-bar {
+    width: 100%;
+    height: 12px;
+    background: #444;
+    border: 1px solid #fff;
+    margin-top: 4px;
+}
+
+.progress-fill {
+    height: 100%;
+    background: #0f0;
+    transition: width 0.5s ease;
+    width: 20%;
+}
+
+.graph-box {
+    height: 60px;
+    background: #222;
+    border: 1px inset #888;
+    position: relative;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+/* Simulated Oscilloscope Wave */
+#graph-wave {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent 49%, #0f0 50%, transparent 51%);
+    background-size: 40px 100%;
+    animation: moveGraph 2s linear infinite;
+    opacity: 0.3;
+}
+
+@keyframes moveGraph {
+    from { background-position: 0 0; }
+    to { background-position: 40px 0; }
+}
