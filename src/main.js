@@ -1,25 +1,27 @@
+let topZ = 100;
+
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Initialize all systems
-    initDraggable();
     initClock();
+    initWindowControls(); // Handles Draggable AND Closing
     initTerminal();
     initSystemMonitor();
 });
 
 /**
- * WINDOW DRAGGING SYSTEM
+ * WINDOW CONTROLS (Drag, Close, Z-Index)
  */
-function initDraggable() {
+function initWindowControls() {
     const windows = document.querySelectorAll('.window');
-    let topZ = 100;
 
     windows.forEach(win => {
         const titleBar = win.querySelector('.title-bar');
-        
+        const closeBtn = win.querySelector('.close-btn');
+
+        // 1. Dragging Logic
         titleBar.onmousedown = (e) => {
             topZ++;
             win.style.zIndex = topZ;
-
+            
             let shiftX = e.clientX - win.getBoundingClientRect().left;
             let shiftY = e.clientY - win.getBoundingClientRect().top;
 
@@ -28,7 +30,10 @@ function initDraggable() {
                 win.style.top = pageY - shiftY + 'px';
             }
 
-            function onMouseMove(ev) { moveAt(ev.pageX, ev.pageY); }
+            function onMouseMove(ev) {
+                moveAt(ev.pageX, ev.pageY);
+            }
+
             document.addEventListener('mousemove', onMouseMove);
 
             document.onmouseup = () => {
@@ -36,120 +41,118 @@ function initDraggable() {
                 document.onmouseup = null;
             };
         };
-    });
 
-    // Handle Close Buttons
-    document.querySelectorAll('.close').forEach(btn => {
-        btn.onclick = (e) => {
-            e.target.closest('.window').style.display = 'none';
-        };
+        // 2. Closing Logic
+        if (closeBtn) {
+            closeBtn.onclick = () => {
+                win.style.display = 'none';
+            };
+        }
     });
 }
 
 /**
- * TERMINAL / SHELL SYSTEM
+ * TERMINAL SYSTEM
  */
 function initTerminal() {
-    const termInput = document.getElementById('term-input');
-    const termHistory = document.getElementById('terminal-history');
-    if (!termInput) return;
+    const input = document.getElementById('term-input');
+    const history = document.getElementById('term-history');
+    
+    if (!input || !history) return;
 
-    termInput.addEventListener('keydown', (e) => {
+    // Show initial instructions (The "Boot" look)
+    history.innerHTML = `<div style="color: #888;">[OK] Kernel Loaded.<br>[OK] Terminal Initialized.<br><br>Type 'help' to see available commands.</div>`;
+
+    input.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
-            const cmd = termInput.value.toLowerCase().trim();
+            const val = input.value.toLowerCase().trim();
+            let response = `<br><span style="color: #aaa;">guest@ioannis:~$</span> ${val}<br>`;
             
-            // Create output line
-            let output = `<br><span class="prompt">guest@ioannis:~$</span> ${cmd}<br>`;
-            
-            // Logic Switch
-            if (cmd === 'ls') {
-                output += "OsDev/  CSProject/  Bio.txt  Contact.sh";
-            } else if (cmd === 'help') {
-                output += "Available commands: ls, whoami, clear, github";
-            } else if (cmd === 'whoami') {
-                output += "IoannisCh - Systems Engineer & Software Developer";
-            } else if (cmd === 'github') {
-                output += "Opening GitHub profile...";
+            if (val === 'ls') {
+                response += "bio.txt  projects/  skills.sys";
+            } else if (val === 'help') {
+                response += "Available commands: <span style='color:#fff'>ls, help, clear, github, whoami</span>";
+            } else if (val === 'whoami') {
+                response += "IoannisCh - Systems Engineer (C++, OsDev)";
+            } else if (val === 'github') {
+                response += "Opening GitHub profile...";
                 window.open('https://github.com/IoannisCh', '_blank');
-            } else if (cmd === 'clear') {
-                termHistory.innerHTML = 'Terminal cleared.';
-                termInput.value = '';
+            } else if (val === 'clear') {
+                history.innerHTML = '';
+                input.value = '';
                 return;
-            } else if (cmd !== "") {
-                output += `bash: ${cmd}: command not found`;
+            } else if (val !== "") {
+                response += `bash: ${val}: command not found`;
             }
 
-            termHistory.innerHTML += output;
-            termInput.value = '';
-            termHistory.scrollTop = termHistory.scrollHeight;
+            history.innerHTML += response;
+            input.value = '';
+            // Auto-scroll to bottom
+            const body = input.closest('.terminal-bg');
+            body.scrollTop = body.scrollHeight;
         }
     });
-    const bootLines = [
-        "Initializing Ioannis-OS...",
-        "Loading kernel modules...",
-        "Checking GitHub connection... OK",
-        "Mounting /home/ioannis...",
-        "System ready. Type 'help' to begin."
-    ];
-
-    bootLines.forEach((line, index) => {
-        setTimeout(() => {
-            termHistory.innerHTML += `<div style="color: #888;">[${new Date().toLocaleTimeString()}] ${line}</div>`;
-            termHistory.scrollTop = termHistory.scrollHeight;
-        }, index * 500); // 0.5s delay between lines
-    });
-
 }
 
 /**
- * SYSTEM MONITOR (SIMULATED STATS)
+ * SYSTEM MONITOR (Fluctuating bars)
  */
 function initSystemMonitor() {
-    const cpuBar = document.getElementById('cpu-load');
-    const memBar = document.getElementById('mem-load');
+    const cpuFill = document.getElementById('cpu-fill');
+    const memFill = document.getElementById('mem-fill');
 
     setInterval(() => {
-        if(cpuBar && memBar) {
+        if (cpuFill && memFill) {
             const cpu = Math.floor(Math.random() * 15) + 5; // 5-20%
-            const mem = 42 + Math.random(); // Stable 42%
-            cpuBar.style.width = cpu + '%';
-            memBar.style.width = mem + '%';
+            const mem = 42 + (Math.random() * 2); // Stable around 42%
+            cpuFill.style.width = cpu + '%';
+            memFill.style.width = mem + '%';
         }
-    }, 2000);
+    }, 1500);
 }
 
 /**
- * TASKBAR CLOCK
+ * CLOCK
  */
 function initClock() {
     const clock = document.getElementById('clock');
     const update = () => {
-        clock.innerText = new Date().toLocaleTimeString();
+        if (!clock) return;
+        const d = new Date();
+        clock.textContent = d.getHours().toString().padStart(2, '0') + ":" + 
+                            d.getMinutes().toString().padStart(2, '0') + ":" + 
+                            d.getSeconds().toString().padStart(2, '0');
     };
     setInterval(update, 1000);
     update();
 }
 
-// Toggle the Applications Menu
-function toggleStartMenu() {
+/**
+ * GLOBAL UI HELPERS
+ */
+window.toggleStartMenu = function(e) {
+    e.stopPropagation();
     const menu = document.getElementById('start-menu');
-    menu.style.display = (menu.style.display === 'none') ? 'block' : 'none';
-}
+    menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+};
 
-// Function to open/show a window and bring it to top
-function openWindow(id) {
+window.openWindow = function(id) {
     const win = document.getElementById(id);
     if (win) {
         win.style.display = 'block';
-        // Global topZ reference from your existing draggable logic
-        topZ++; 
+        topZ++;
         win.style.zIndex = topZ;
+        
+        // Auto-focus terminal if opened
+        if (id === 'term-win') {
+            setTimeout(() => document.getElementById('term-input').focus(), 10);
+        }
     }
-    // Close the start menu after selection
     document.getElementById('start-menu').style.display = 'none';
-}
+};
 
-// Optional: Close start menu if clicking anywhere else on the desktop
-document.getElementById('workspace').addEventListener('click', () => {
-    document.getElementById('start-menu').style.display = 'none';
+// Close menu when clicking desktop
+document.addEventListener('click', () => {
+    const menu = document.getElementById('start-menu');
+    if (menu) menu.style.display = 'none';
 });

@@ -1,76 +1,112 @@
 :root {
-    --linux-grey: #aeaeae;
-    --linux-dark: #4b4b4b;
-    --linux-blue: #2a3f5a;
-    --text-color: #000;
+    --grey: #aeaeae;
+    --dark-grey: #4b4b4b;
+    --win-blue: #2a3f5a;
+    --bg-color: #354a5f;
 }
 
 body {
-    background-color: #354a5f; /* Classic deep slate blue */
+    background-color: var(--bg-color);
     margin: 0;
     font-family: "Courier New", monospace;
+    overflow: hidden;
+    color: #000;
 }
 
-/* Window Style */
+/* Panel & Start Menu */
+#panel {
+    background: var(--grey);
+    border-bottom: 2px outset #fff;
+    display: flex;
+    height: 30px;
+    align-items: center;
+    padding: 0 10px;
+    position: relative;
+    z-index: 10000;
+}
+
+.panel-item {
+    padding: 0 15px;
+    border-right: 1px solid var(--dark-grey);
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.menu-popup {
+    display: none;
+    position: fixed;
+    top: 30px;
+    left: 0;
+    width: 220px;
+    background: var(--grey);
+    border: 2px outset #fff;
+    z-index: 9999;
+}
+
+.menu-item {
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.menu-item:hover {
+    background: var(--win-blue);
+    color: #fff;
+}
+
+/* Windows */
 .window {
     position: absolute;
-    background: var(--linux-grey);
-    border: 3px outset #eee;
+    background: var(--grey);
+    border: 3px outset #fff;
+    min-width: 300px;
     box-shadow: 4px 4px 10px rgba(0,0,0,0.5);
-    min-width: 350px;
-    z-index: 10;
 }
 
 .title-bar {
-    background: var(--linux-blue);
-    color: #fff;
+    background: var(--win-blue);
+    color: white;
     padding: 4px 8px;
     display: flex;
     justify-content: space-between;
-    align-items: center;
     cursor: grab;
 }
 
 .window-content {
     background: #fff;
-    margin: 5px;
-    padding: 15px;
-    border: 2px inset #888;
-    color: var(--text-color);
+    margin: 4px;
+    padding: 10px;
+    border: 2px inset #fff;
 }
 
-/* Panel/Taskbar */
-#panel {
-    position: fixed;
-    top: 0; /* Linux panels are often at the top */
-    width: 100%;
-    height: 30px;
-    background: var(--linux-grey);
-    border-bottom: 2px outset #fff;
-    display: flex;
-    align-items: center;
-    padding: 0 10px;
-}
-
-.panel-item {
-    padding: 0 15px;
-    border-right: 1px solid var(--linux-dark);
+.win-btn {
+    background: var(--grey);
+    border: 1px outset #fff;
+    cursor: pointer;
     font-weight: bold;
 }
 
+/* Icons & Grid */
 .shortcut {
-    width: 100px;
+    width: 80px;
     text-align: center;
     color: white;
-    margin-top: 50px;
+    margin: 20px;
     cursor: pointer;
 }
 
-/* Terminal Specifics */
-.terminal-content {
+.file-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    text-align: center;
+}
+
+.file-item:hover { background: #eee; cursor: pointer; }
+
+/* Terminal */
+.terminal-bg {
     background: #000 !important;
     color: #0f0 !important;
-    font-family: 'Courier New', monospace;
     height: 200px;
     overflow-y: auto;
 }
@@ -80,105 +116,10 @@ body {
     border: none;
     color: #0f0;
     outline: none;
-    font-family: inherit;
     width: 70%;
 }
 
-/* System Monitor Specifics */
-.stat-row { margin-bottom: 10px; font-size: 12px; }
-
-.progress-bar {
-    width: 100%;
-    height: 12px;
-    background: #444;
-    border: 1px solid #fff;
-    margin-top: 4px;
-}
-
-.progress-fill {
-    height: 100%;
-    background: #0f0;
-    transition: width 0.5s ease;
-    width: 20%;
-}
-
-.graph-box {
-    height: 60px;
-    background: #222;
-    border: 1px inset #888;
-    position: relative;
-    overflow: hidden;
-    margin-top: 10px;
-}
-
-/* Simulated Oscilloscope Wave */
-#graph-wave {
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent 49%, #0f0 50%, transparent 51%);
-    background-size: 40px 100%;
-    animation: moveGraph 2s linear infinite;
-    opacity: 0.3;
-}
-
-@keyframes moveGraph {
-    from { background-position: 0 0; }
-    to { background-position: 40px 0; }
-}
-
-.file-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-    background: #fff !important;
-}
-
-.file-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    cursor: pointer;
-    padding: 5px;
-    border: 1px solid transparent;
-}
-
-.file-item:hover {
-    background: #e0e0e0;
-    border: 1px dotted #000;
-}
-
-.file-icon { font-size: 24px; margin-bottom: 5px; }
-.file-item span { font-size: 11px; text-decoration: underline; }
-
-/* Start Menu Styling */
-#start-menu {
-    position: fixed;
-    border: 2px outset #eee;
-    background: var(--linux-grey);
-}
-
-.menu-item {
-    padding: 8px 12px;
-    cursor: pointer;
-    font-size: 12px;
-    color: #000;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.menu-item:hover {
-    background: var(--linux-blue);
-    color: #fff;
-}
-
-hr {
-    border: 0;
-    border-top: 1px inset #888;
-    margin: 0;
-}
-
-/* Make sure buttons in windows look clickable */
-.win-btn:active {
-    border: 2px inset #fff;
-}
+/* System Monitor */
+.bar { height: 10px; background: #444; border: 1px solid #000; margin: 4px 0; }
+.fill { height: 100%; background: #0f0; width: 0%; transition: width 0.5s; }
+.graph { height: 40px; background: #222; margin-top: 10px; border: 1px inset #888; }

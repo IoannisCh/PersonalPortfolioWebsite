@@ -2,135 +2,95 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Ioannis Chantolios | X11 Workstation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IoannisCh | Systems Workstation</title>
     <link rel="stylesheet" href="src/style.css">
 </head>
 <body>
+
+    <div id="panel">
+        <div class="panel-item start-trigger" onclick="toggleStartMenu(event)">Applications</div>
+        <div class="panel-item clock" id="clock">00:00:00</div>
+    </div>
+
+    <div id="start-menu" class="window menu-popup">
+        <div class="menu-item" onclick="openWindow('bio-win')">👤 System Info</div>
+        <div class="menu-item" onclick="openWindow('project-win')">📁 Project Explorer</div>
+        <div class="menu-item" onclick="openWindow('term-win')">🖥️ Terminal (xterm)</div>
+        <div class="menu-item" onclick="openWindow('sys-win')">📊 System Monitor</div>
+        <hr>
+        <div class="menu-item" onclick="window.open('https://github.com/IoannisCh', '_blank')">🌐 GitHub Profile</div>
+    </div>
+
     <div id="workspace">
-        <div class="shortcut" data-window="bio-win">
-            <div class="icon">👤</div>
+        <div class="shortcut" onclick="openWindow('bio-win')">
+            <div class="icon-img">👤</div>
             <span>Home</span>
         </div>
-        <div class="shortcut" data-window="git-win">
-            <div class="icon">📁</div>
-            <span>GitHub_Projects</span>
+        <div class="shortcut" onclick="openWindow('project-win')">
+            <div class="icon-img">📁</div>
+            <span>Projects</span>
         </div>
 
-        <div id="bio-win" class="window active">
+        <div id="bio-win" class="window" style="top: 60px; left: 50px;">
             <div class="title-bar">
                 <span class="window-title">user@ioannis: ~/bio</span>
-                <div class="window-actions">
-                    <button class="win-btn">_</button>
-                    <button class="win-btn close">X</button>
-                </div>
+                <div class="window-actions"><button class="win-btn close">X</button></div>
             </div>
             <div class="window-content">
-                <h2>System Info</h2>
-                <p><strong>Engineer:</strong> Ioannis Chantolios</p>
-                <p><strong>Focus:</strong> Software Engineering</p>
-                <p>Computer Science graduate.</p>
+                <h2>IoannisCh</h2>
+                <p><strong>Role:</strong> Systems & Software Engineer</p>
+                <p><strong>Expertise:</strong> C++, Assembly, OsDev, React</p>
+                <p>Welcome to my interactive workstation. Open the Project Explorer to see my code.</p>
             </div>
         </div>
 
-        <div id="git-win" class="window" style="display:none; top:150px; left:150px;">
+        <div id="project-win" class="window" style="top: 100px; left: 400px; display: none;">
             <div class="title-bar">
-                <span class="window-title">X-Project-Manager</span>
-                <div class="window-actions">
-                    <button class="win-btn close">X</button>
+                <span class="window-title">X-Project-Explorer</span>
+                <div class="window-actions"><button class="win-btn close">X</button></div>
+            </div>
+            <div class="window-content file-grid">
+                <div class="file-item" onclick="window.open('https://github.com/IoannisCh/OsDev', '_blank')">
+                    <div class="file-icon">💾</div>
+                    <span>OsDev</span>
+                </div>
+                <div class="file-item" onclick="window.open('https://github.com/IoannisCh/CSProject', '_blank')">
+                    <div class="file-icon">📁</div>
+                    <span>CSProject</span>
                 </div>
             </div>
+        </div>
+
+       <div class="window-actions">
+    <button class="win-btn close-btn">X</button>
+</div>
+
+<div id="term-win" class="window" style="display: none; top: 200px; left: 150px;">
+    <div class="title-bar">
+        <span class="window-title">xterm</span>
+        <div class="window-actions"><button class="win-btn close-btn">X</button></div>
+    </div>
+    <div class="window-content terminal-bg">
+        <div id="term-history"></div> <div class="term-line">
+            <span class="prompt">guest@ioannis:~$</span>
+            <input type="text" id="term-input" autocomplete="off" spellcheck="false">
+        </div>
+    </div>
+</div>
+
+        <div id="sys-win" class="window" style="top: 50px; right: 50px; display: block;">
+            <div class="title-bar">
+                <span class="window-title">X-System-Monitor</span>
+                <div class="window-actions"><button class="win-btn close">X</button></div>
+            </div>
             <div class="window-content">
-                <ul>
-                    <li><a href="https://github.com/IoannisCh/OsDev" target="_blank">OsDev</a> - Kernel development</li>
-                    <li><a href="https://github.com/IoannisCh/CSProject" target="_blank">CSProject</a> - Systems logic</li>
-                </ul>
+                <div class="stat">CPU: <div class="bar"><div id="cpu-fill" class="fill"></div></div></div>
+                <div class="stat">MEM: <div class="bar"><div id="mem-fill" class="fill"></div></div></div>
+                <div class="graph"></div>
             </div>
         </div>
-        <div id="files-win" class="window" style="top: 120px; left: 400px; display: block;">
-    <div class="title-bar">
-        <span class="window-title">/home/ioannis/projects</span>
-        <div class="window-actions">
-            <button class="win-btn close">X</button>
-        </div>
     </div>
-    <div class="window-content file-grid">
-        <div class="file-item" onclick="window.open('https://github.com/IoannisCh/OsDev', '_blank')">
-            <div class="file-icon">💾</div>
-            <span>OsDev.src</span>
-        </div>
-        <div class="file-item" onclick="window.open('https://github.com/IoannisCh/CSProject', '_blank')">
-            <div class="file-icon">📁</div>
-            <span>CSProject.lib</span>
-        </div>
-    </div>
-</div>
-        <div id="term-win" class="window" style="top: 250px; left: 100px; display: none;">
-    <div class="title-bar">
-        <span class="window-title">xterm - bash</span>
-        <div class="window-actions">
-            <button class="win-btn close">X</button>
-        </div>
-    </div>
-    <div class="window-content terminal-content">
-        <div id="terminal-history">
-            Welcome to Ioannis-OS v1.0.4<br>
-            Type 'help' for a list of commands.
-        </div>
-        <div class="terminal-input-line">
-            <span class="prompt">guest@ioannis:~$</span>
-            <input type="text" id="term-input" autofocus>
-        </div>
-    </div>
-</div>
-
-<div id="sys-win" class="window" style="top: 50px; right: 50px; display: block;">
-    <div class="title-bar">
-        <span class="window-title">X-System-Monitor</span>
-        <div class="window-actions">
-            <button class="win-btn close">X</button>
-        </div>
-    </div>
-    <div class="window-content">
-        <div class="stat-row">
-            <span>CPU Usage:</span>
-            <div class="progress-bar"><div id="cpu-load" class="progress-fill"></div></div>
-        </div>
-        <div class="stat-row">
-            <span>MEM Usage:</span>
-            <div class="progress-bar"><div id="mem-load" class="progress-fill"></div></div>
-        </div>
-        <div class="graph-box">
-            <div id="graph-wave"></div>
-        </div>
-    </div>
-</div>
-    </div>
-
-   <div id="panel">
-    <div class="panel-item start-trigger" onclick="toggleStartMenu()">Applications</div>
-    <div class="panel-item clock" id="clock">00:00:00</div>
-</div>
-
-<div id="start-menu" class="window" style="display:none; bottom:32px; left:0; width:200px; z-index:9999;">
-    <div class="menu-item" onclick="openWindow('bio-win')">👤 System Info</div>
-    <div class="menu-item" onclick="openWindow('git-win')">📁 Project Manager</div>
-    <div class="menu-item" onclick="openWindow('term-win')">🖥️ Terminal (xterm)</div>
-    <div class="menu-item" onclick="openWindow('sys-win')">📊 System Monitor</div>
-    <hr>
-    <div class="menu-item" onclick="window.open('https://github.com/IoannisCh', '_blank')">🌐 GitHub Profile</div>
-</div>
-
-<div id="specs-win" class="window" style="top: 350px; left: 450px;">
-    <div class="title-bar">
-        <span class="window-title">System-Properties</span>
-        <div class="window-actions"><button class="win-btn close">X</button></div>
-    </div>
-    <div class="window-content">
-        <p><b>Kernel:</b> C++, Assembly (x86)</p>
-        <p><b>Modules:</b> Java, React, Node.js</p>
-        <p><b>Architecture:</b> Systems Programming, OS Development</p>
-    </div>
-</div>
 
     <script src="src/main.js"></script>
 </body>
