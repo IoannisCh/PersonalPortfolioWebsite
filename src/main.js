@@ -84,6 +84,21 @@ function initTerminal() {
             termHistory.scrollTop = termHistory.scrollHeight;
         }
     });
+    const bootLines = [
+        "Initializing Ioannis-OS...",
+        "Loading kernel modules...",
+        "Checking GitHub connection... OK",
+        "Mounting /home/ioannis...",
+        "System ready. Type 'help' to begin."
+    ];
+
+    bootLines.forEach((line, index) => {
+        setTimeout(() => {
+            termHistory.innerHTML += `<div style="color: #888;">[${new Date().toLocaleTimeString()}] ${line}</div>`;
+            termHistory.scrollTop = termHistory.scrollHeight;
+        }, index * 500); // 0.5s delay between lines
+    });
+
 }
 
 /**
@@ -114,3 +129,27 @@ function initClock() {
     setInterval(update, 1000);
     update();
 }
+
+// Toggle the Applications Menu
+function toggleStartMenu() {
+    const menu = document.getElementById('start-menu');
+    menu.style.display = (menu.style.display === 'none') ? 'block' : 'none';
+}
+
+// Function to open/show a window and bring it to top
+function openWindow(id) {
+    const win = document.getElementById(id);
+    if (win) {
+        win.style.display = 'block';
+        // Global topZ reference from your existing draggable logic
+        topZ++; 
+        win.style.zIndex = topZ;
+    }
+    // Close the start menu after selection
+    document.getElementById('start-menu').style.display = 'none';
+}
+
+// Optional: Close start menu if clicking anywhere else on the desktop
+document.getElementById('workspace').addEventListener('click', () => {
+    document.getElementById('start-menu').style.display = 'none';
+});

@@ -125,3 +125,60 @@ body {
     from { background-position: 0 0; }
     to { background-position: 40px 0; }
 }
+
+.file-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    background: #fff !important;
+}
+
+.file-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    padding: 5px;
+    border: 1px solid transparent;
+}
+
+.file-item:hover {
+    background: #e0e0e0;
+    border: 1px dotted #000;
+}
+
+.file-icon { font-size: 24px; margin-bottom: 5px; }
+.file-item span { font-size: 11px; text-decoration: underline; }
+
+/* Start Menu Styling */
+#start-menu {
+    position: fixed;
+    border: 2px outset #eee;
+    background: var(--linux-grey);
+}
+
+.menu-item {
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 12px;
+    color: #000;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.menu-item:hover {
+    background: var(--linux-blue);
+    color: #fff;
+}
+
+hr {
+    border: 0;
+    border-top: 1px inset #888;
+    margin: 0;
+}
+
+/* Make sure buttons in windows look clickable */
+.win-btn:active {
+    border: 2px inset #fff;
+}
